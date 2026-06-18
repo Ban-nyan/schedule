@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание стримов 🍌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: #fef9e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 750px;
+            width: 100%;
+            background: #ffffff;
+            padding: 30px 25px;
+            border-radius: 40px 40px 30px 30px;
+            box-shadow: 0 12px 30px rgba(255, 200, 0, 0.2);
+            border: 2px solid #f5d742;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .container::before {
+            content: "🍌";
+            position: absolute;
+            top: -18px;
+            left: 20px;
+            font-size: 40px;
+            transform: rotate(-20deg);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+        .container::after {
+            content: "🍌";
+            position: absolute;
+            bottom: -18px;
+            right: 20px;
+            font-size: 40px;
+            transform: rotate(20deg) scaleX(-1);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #b7791f;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 #ffeeaa;
+            margin-top: 0;
+            margin-bottom: 10px;
+            word-break: break-word;
+        }
+
+        .subhead {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #a67c2e;
+            background: #fff7d6;
+            padding: 12px 18px;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 0 auto 20px;
+            border: 1.5px dashed #e4b83b;
+            font-weight: 500;
+            width: auto;
+        }
+
+        .time-block {
+            background: #fdf1c0;
+            padding: 16px 20px;
+            border-radius: 60px;
+            text-align: center;
+            margin: 20px 0 25px;
+            border: 2px solid #f3cd6a;
+            box-shadow: inset 0 2px 8px rgba(255, 215, 0, 0.2);
+        }
+
+        .time-block strong {
+            color: #8b6b1f;
+            font-size: 1.2rem;
+        }
+
+        #current-time {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #222;
+            background: #fff8e0;
+            padding: 4px 18px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-left: 10px;
+            letter-spacing: 2px;
+            border: 1px solid #eac451;
+        }
+
+        .info-box {
+            background: #fff9e6;
+            border-left: 8px solid #f5c542;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin: 20px 0 25px;
+            box-shadow: 0 4px 10px rgba(255, 200, 0, 0.08);
+        }
+
+        .info-box p {
+            font-size: 1.05rem;
+            color: #5f4a1a;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-box .icon {
+            font-size: 1.6rem;
+        }
+
+        .schedule-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #b7791f;
+            text-align: center;
+            margin: 30px 0 20px;
+            background: #ffeeaa;
+            padding: 8px 0;
+            border-radius: 60px;
+            border: 2px solid #f5d742;
+        }
+
+        .schedule-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        .day-card {
+            background: #fefce8;
+            border-radius: 30px;
+            padding: 16px 22px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #f5d742;
+            box-shadow: 0 4px 0 #dbaa2b;
+            transition: all 0.1s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #dbaa2b;
+        }
+
+        .day-name {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #5f3f0a;
+            min-width: 90px;
+        }
+
+        .day-date {
+            font-weight: 600;
+            color: #7a5d1e;
+            background: #fff3c9;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            border: 1px solid #eac451;
+        }
+
+        .event-info {
+            font-size: 1rem;
+            color: #3d2e0c;
+            background: #ffffff;
+            padding: 6px 18px;
+            border-radius: 40px;
+            border: 1.5px solid #f5d742;
+            background: #fffde7;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            margin: 6px 10px;
+        }
+
+        .event-tag {
+            background: #f5c542;
+            color: #222;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            border: 1px solid #dbaa2b;
+        }
+
+        .weekend-tag {
+            background: #ffe082;
+            color: #5f3f0a;
+            font-weight: 700;
+            padding: 4px 18px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            border: 2px solid #dbaa2b;
+            letter-spacing: 0.5px;
+        }
+
+        /* Блок с кнопками */
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            border: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
+        }
+
+        .btn-twitch {
+            background: #9146FF;
+            border: 2px solid #772ce8;
+        }
+
+        .btn-twitch:hover {
+            background: #a970ff;
+        }
+
+        .btn-youtube {
+            background: #FF0000;
+            border: 2px solid #cc0000;
+        }
+
+        .btn-youtube:hover {
+            background: #ff3333;
+        }
+
+        .banana-decoration {
+            text-align: center;
+            font-size: 2.2rem;
+            letter-spacing: 12px;
+            margin: 10px 0 0;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+            .day-card {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+            .day-name {
+                font-size: 1.1rem;
+            }
+            .event-info {
+                margin: 4px 0;
+                min-width: unset;
+            }
+            #current-time {
+                font-size: 1.5rem;
+                margin-left: 0;
+                display: block;
+                margin-top: 6px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .container::before,
+            .container::after {
+                display: none;
+            }
+            .social-buttons {
+                gap: 12px;
+            }
+            .btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🍌 Банановое расписание</h1>
+    <div style="text-align: center;">
+        <span class="subhead">🎮 Стримы · уют</span>
+    </div>
+
+    <!-- Московское время -->
+    <div class="time-block">
+        <strong>🕐 МСК сейчас:</strong>
+        <span id="current-time">--:--:--</span>
+    </div>
+
+    <!-- Инфо о времени стримов -->
+    <div class="info-box">
+        <p><span class="icon">⏰</span> <strong>Стримы стартуют с 9:00 до 10:00 утра по МСК</strong></p>
+        <p><span class="icon">📢</span> О любых изменениях в расписании сообщу заранее!</p>
+    </div>
+
+    <!-- Заголовок расписания -->
+    <div class="schedule-title">
+        🗓️ 22 – 26 ИЮНЯ
+    </div>
+
+    <!-- Сетка расписания -->
+    <div class="schedule-grid">
+        <!-- 22 июня - Понедельник -->
+        <div class="day-card">
+            <span class="day-name">Понедельник</span>
+            <span class="day-date">22 июня</span>
+            <span class="event-info">📺 Стрим</span>
+            <span class="event-tag">в эфире</span>
+        </div>
+        <!-- 23 июня - Вторник -->
+        <div class="day-card">
+            <span class="day-name">Вторник</span>
+            <span class="day-date">23 июня</span>
+            <span class="event-info">📺 Стрим</span>
+            <span class="event-tag">в эфире</span>
+        </div>
+        <!-- 24 июня - Среда -->
+        <div class="day-card">
+            <span class="day-name">Среда</span>
+            <span class="day-date">24 июня</span>
+            <span class="event-info">📺 Стрим</span>
+            <span class="event-tag">в эфире</span>
+        </div>
+        <!-- 25 июня - Четверг -->
+        <div class="day-card">
+            <span class="day-name">Четверг</span>
+            <span class="day-date">25 июня</span>
+            <span class="event-info">📺 Стрим</span>
+            <span class="event-tag">в эфире</span>
+        </div>
+        <!-- 26 июня - Пятница -->
+        <div class="day-card">
+            <span class="day-name">Пятница</span>
+            <span class="day-date">26 июня</span>
+            <span class="event-info">📺 Стрим</span>
+            <span class="event-tag">в эфире</span>
+        </div>
+        <!-- 27 июня - Суббота (выходной) -->
+        <div class="day-card" style="background: #fef9e0; opacity: 0.9;">
+            <span class="day-name">Суббота</span>
+            <span class="day-date">27 июня</span>
+            <span class="event-info">🌴 Выходной</span>
+            <span class="weekend-tag">отдыхаем</span>
+        </div>
+        <!-- 28 июня - Воскресенье (выходной) -->
+        <div class="day-card" style="background: #fef9e0; opacity: 0.9;">
+            <span class="day-name">Воскресенье</span>
+            <span class="day-date">28 июня</span>
+            <span class="event-info">🌴 Выходной</span>
+            <span class="weekend-tag">отдыхаем</span>
+        </div>
+    </div>
+
+    <!-- Кнопки Twitch и YouTube -->
+    <div class="social-buttons">
+        <a href="https://www.twitch.tv/ban_nyan" target="_blank" class="btn btn-twitch">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
+            </svg>
+            Twitch
+        </a>
+        <a href="https://www.youtube.com/@ban_nyan" target="_blank" class="btn btn-youtube">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            YouTube
+        </a>
+    </div>
+
+    <!-- банановый декор -->
+    <div class="banana-decoration">
+        🍌 🍌 🍌 🍌 🍌
+    </div>
+
+</div>
+
+<script>
+    // Функция обновления московского времени
+    function updateMoscowTime() {
+        const now = new Date();
+        const mskTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
+        const hours = String(mskTime.getHours()).padStart(2, '0');
+        const minutes = String(mskTime.getMinutes()).padStart(2, '0');
+        const seconds = String(mskTime.getSeconds()).padStart(2, '0');
+        document.getElementById('current-time').textContent = hours + ':' + minutes + ':' + seconds;
+    }
+
+    updateMoscowTime();
+    setInterval(updateMoscowTime, 1000);
+</script>
+
+</body>
+</html>
