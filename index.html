@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Расписание стримов 🍌</title>
+    <title>Расписание стримов 🍌🐱</title>
     <style>
         * {
             margin: 0;
@@ -14,23 +14,62 @@
         body {
             font-family: 'Segoe UI', 'Arial', sans-serif;
             background: #fef9e0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .cat-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .cat {
+            position: absolute;
+            font-size: 4rem;
+            opacity: 0.2;
+            user-select: none;
+            animation: floatCat 12s ease-in-out infinite alternate;
+        }
+
+        .cat:nth-child(1) { top: 5%; left: 3%; font-size: 5rem; animation-duration: 14s; }
+        .cat:nth-child(2) { top: 15%; right: 5%; font-size: 3.5rem; animation-duration: 10s; animation-delay: 1s; }
+        .cat:nth-child(3) { bottom: 20%; left: 2%; font-size: 6rem; animation-duration: 16s; animation-delay: 2s; }
+        .cat:nth-child(4) { bottom: 30%; right: 3%; font-size: 4.5rem; animation-duration: 11s; animation-delay: 0.5s; }
+        .cat:nth-child(5) { top: 45%; left: 8%; font-size: 3rem; animation-duration: 13s; animation-delay: 3s; }
+        .cat:nth-child(6) { top: 60%; right: 8%; font-size: 4rem; animation-duration: 15s; animation-delay: 1.5s; }
+        .cat:nth-child(7) { top: 5%; left: 45%; font-size: 3.5rem; animation-duration: 12s; animation-delay: 2.5s; }
+        .cat:nth-child(8) { bottom: 5%; left: 40%; font-size: 5.5rem; animation-duration: 17s; animation-delay: 0.8s; }
+        .cat:nth-child(9) { top: 30%; left: 30%; font-size: 4.2rem; animation-duration: 14s; animation-delay: 4s; }
+        .cat:nth-child(10) { bottom: 45%; right: 25%; font-size: 3.8rem; animation-duration: 11s; animation-delay: 3.5s; }
+
+        @keyframes floatCat {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            25% { transform: translate(30px, -20px) rotate(8deg) scale(1.05); }
+            50% { transform: translate(-20px, 30px) rotate(-5deg) scale(0.95); }
+            75% { transform: translate(40px, 10px) rotate(12deg) scale(1.02); }
+            100% { transform: translate(-30px, -30px) rotate(-8deg) scale(0.98); }
         }
 
         .container {
-            max-width: 750px;
+            max-width: 820px;
             width: 100%;
-            background: #ffffff;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(4px);
             padding: 30px 25px;
             border-radius: 40px 40px 30px 30px;
-            box-shadow: 0 12px 30px rgba(255, 200, 0, 0.2);
+            box-shadow: 0 12px 40px rgba(255, 200, 0, 0.25);
             border: 2px solid #f5d742;
             position: relative;
-            transition: 0.3s;
+            z-index: 1;
         }
 
         .container::before {
@@ -40,8 +79,9 @@
             left: 20px;
             font-size: 40px;
             transform: rotate(-20deg);
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            animation: wiggleBanana 2s ease-in-out infinite;
         }
+
         .container::after {
             content: "🍌";
             position: absolute;
@@ -49,19 +89,31 @@
             right: 20px;
             font-size: 40px;
             transform: rotate(20deg) scaleX(-1);
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            animation: wiggleBanana2 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes wiggleBanana {
+            0%, 100% { transform: rotate(-20deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        @keyframes wiggleBanana2 {
+            0%, 100% { transform: rotate(20deg) scaleX(-1); }
+            50% { transform: rotate(-10deg) scaleX(-1); }
         }
 
         h1 {
             text-align: center;
-            font-size: 2.6rem;
+            font-size: 2.8rem;
             font-weight: 800;
             color: #b7791f;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 0 #ffeeaa;
-            margin-top: 0;
-            margin-bottom: 10px;
-            word-break: break-word;
+            text-shadow: 3px 3px 0 #ffeeaa;
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
 
         .subhead {
@@ -72,9 +124,8 @@
             padding: 12px 18px;
             border-radius: 60px;
             display: inline-block;
-            margin: 0 auto 20px;
+            margin: 10px auto 20px;
             border: 1.5px dashed #e4b83b;
-            font-weight: 500;
             width: auto;
         }
 
@@ -85,24 +136,22 @@
             text-align: center;
             margin: 20px 0 25px;
             border: 2px solid #f3cd6a;
-            box-shadow: inset 0 2px 8px rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
         }
 
-        .time-block strong {
-            color: #8b6b1f;
-            font-size: 1.2rem;
+        .time-block:hover {
+            transform: scale(1.01);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
 
         #current-time {
             font-size: 2rem;
             font-weight: 700;
-            color: #222;
             background: #fff8e0;
             padding: 4px 18px;
             border-radius: 40px;
             display: inline-block;
             margin-left: 10px;
-            letter-spacing: 2px;
             border: 1px solid #eac451;
         }
 
@@ -112,25 +161,21 @@
             padding: 16px 20px;
             border-radius: 20px;
             margin: 20px 0 25px;
-            box-shadow: 0 4px 10px rgba(255, 200, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .info-box:hover {
+            transform: translateX(5px);
         }
 
         .info-box p {
             font-size: 1.05rem;
             color: #5f4a1a;
-            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .info-box p:last-child {
-            margin-bottom: 0;
-        }
-
-        .info-box .icon {
-            font-size: 1.6rem;
-        }
+        .info-box .icon { font-size: 1.6rem; }
 
         .schedule-title {
             font-size: 1.8rem;
@@ -142,6 +187,7 @@
             padding: 8px 0;
             border-radius: 60px;
             border: 2px solid #f5d742;
+            animation: titlePulse 4s ease-in-out infinite;
         }
 
         .schedule-grid {
@@ -161,19 +207,33 @@
             justify-content: space-between;
             border: 2px solid #f5d742;
             box-shadow: 0 4px 0 #dbaa2b;
-            transition: all 0.1s ease;
+            transition: all 0.15s ease;
+            animation: cardAppear 0.5s ease-out both;
+        }
+
+        .day-card:nth-child(1) { animation-delay: 0.05s; }
+        .day-card:nth-child(2) { animation-delay: 0.10s; }
+        .day-card:nth-child(3) { animation-delay: 0.15s; }
+        .day-card:nth-child(4) { animation-delay: 0.20s; }
+        .day-card:nth-child(5) { animation-delay: 0.25s; }
+        .day-card:nth-child(6) { animation-delay: 0.30s; }
+        .day-card:nth-child(7) { animation-delay: 0.35s; }
+
+        @keyframes cardAppear {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .day-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 0 #dbaa2b;
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 0 #dbaa2b;
         }
 
         .day-name {
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #5f3f0a;
-            min-width: 90px;
+            min-width: 100px;
         }
 
         .day-date {
@@ -182,34 +242,21 @@
             background: #fff3c9;
             padding: 4px 14px;
             border-radius: 40px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             border: 1px solid #eac451;
         }
 
         .event-info {
             font-size: 1rem;
             color: #3d2e0c;
-            background: #ffffff;
+            background: #fffde7;
             padding: 6px 18px;
             border-radius: 40px;
             border: 1.5px solid #f5d742;
-            background: #fffde7;
             flex: 1;
-            min-width: 150px;
+            min-width: 120px;
             text-align: center;
             margin: 6px 10px;
-        }
-
-        .event-tag {
-            background: #f5c542;
-            color: #222;
-            font-weight: 600;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            border: 1px solid #dbaa2b;
         }
 
         .weekend-tag {
@@ -220,10 +267,40 @@
             border-radius: 40px;
             font-size: 0.9rem;
             border: 2px solid #dbaa2b;
-            letter-spacing: 0.5px;
         }
 
-        /* Блок с кнопками */
+        .timer {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #5f3f0a;
+            background: #fff3c9;
+            padding: 4px 14px;
+            border-radius: 40px;
+            border: 1px solid #eac451;
+            min-width: 140px;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer.live {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            animation: pulse 1.5s infinite;
+            font-size: 1rem;
+        }
+
+        .timer.live::before {
+            content: "🟢 ";
+            font-size: 1.2rem;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
         .social-buttons {
             display: flex;
             justify-content: center;
@@ -242,10 +319,17 @@
             font-weight: 700;
             text-decoration: none;
             color: #fff;
-            border: none;
             transition: all 0.2s ease;
             box-shadow: 0 4px 0 rgba(0,0,0,0.2);
-            cursor: pointer;
+            animation: btnAppear 0.6s ease-out both;
+        }
+
+        .btn:nth-child(1) { animation-delay: 0.4s; }
+        .btn:nth-child(2) { animation-delay: 0.5s; }
+
+        @keyframes btnAppear {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .btn:hover {
@@ -253,28 +337,10 @@
             box-shadow: 0 6px 0 rgba(0,0,0,0.2);
         }
 
-        .btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
-        }
-
-        .btn-twitch {
-            background: #9146FF;
-            border: 2px solid #772ce8;
-        }
-
-        .btn-twitch:hover {
-            background: #a970ff;
-        }
-
-        .btn-youtube {
-            background: #FF0000;
-            border: 2px solid #cc0000;
-        }
-
-        .btn-youtube:hover {
-            background: #ff3333;
-        }
+        .btn-twitch { background: #9146FF; border: 2px solid #772ce8; }
+        .btn-twitch:hover { background: #a970ff; }
+        .btn-youtube { background: #FF0000; border: 2px solid #cc0000; }
+        .btn-youtube:hover { background: #ff3333; }
 
         .banana-decoration {
             text-align: center;
@@ -282,129 +348,64 @@
             letter-spacing: 12px;
             margin: 10px 0 0;
             opacity: 0.7;
+            animation: floatBananas 4s ease-in-out infinite;
+        }
+
+        @keyframes floatBananas {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
 
         @media (max-width: 600px) {
-            .container {
-                padding: 20px 15px;
-            }
-            .day-card {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 8px;
-            }
-            .day-name {
-                font-size: 1.1rem;
-            }
-            .event-info {
-                margin: 4px 0;
-                min-width: unset;
-            }
-            #current-time {
-                font-size: 1.5rem;
-                margin-left: 0;
-                display: block;
-                margin-top: 6px;
-            }
-            h1 {
-                font-size: 2rem;
-            }
-            .container::before,
-            .container::after {
-                display: none;
-            }
-            .social-buttons {
-                gap: 12px;
-            }
-            .btn {
-                padding: 12px 24px;
-                font-size: 1rem;
-                width: 100%;
-                justify-content: center;
-            }
+            .container { padding: 20px 15px; }
+            .day-card { flex-direction: column; align-items: stretch; gap: 8px; }
+            .day-name { font-size: 1.1rem; }
+            .event-info { margin: 4px 0; min-width: unset; }
+            #current-time { font-size: 1.5rem; margin-left: 0; display: block; margin-top: 6px; }
+            h1 { font-size: 2rem; }
+            .container::before, .container::after { display: none; }
+            .social-buttons { gap: 12px; }
+            .btn { padding: 12px 24px; font-size: 1rem; width: 100%; justify-content: center; }
+            .timer { min-width: 100px; font-size: 0.95rem; }
+            .cat { font-size: 2.5rem !important; opacity: 0.15; }
         }
     </style>
 </head>
 <body>
 
+<div class="cat-bg">
+    <div class="cat">🐱</div>
+    <div class="cat">😺</div>
+    <div class="cat">😸</div>
+    <div class="cat">😻</div>
+    <div class="cat">🙀</div>
+    <div class="cat">🐈</div>
+    <div class="cat">🐈‍⬛</div>
+    <div class="cat">😹</div>
+    <div class="cat">😽</div>
+    <div class="cat">🐾</div>
+</div>
+
 <div class="container">
 
     <h1>🍌 Банановое расписание</h1>
-    <div style="text-align: center;">
-        <span class="subhead">🎮 Стримы · уют</span>
-    </div>
+    <div style="text-align: center;"><span class="subhead">🎮 Стримы · уют · котики 🐱</span></div>
 
-    <!-- Московское время -->
     <div class="time-block">
-        <strong>🕐 Московское время:</strong>
+        <strong>🕐 МСК сейчас:</strong>
         <span id="current-time">--:--:--</span>
     </div>
 
-    <!-- Инфо о времени стримов -->
     <div class="info-box">
         <p><span class="icon">⏰</span> <strong>Стримы стартуют с 9:00 до 10:00 утра по МСК</strong></p>
         <p><span class="icon">📢</span> О любых изменениях в расписании сообщу заранее!</p>
+        <p><span class="icon">🐱</span> А пока ждём — любуемся котиками!</p>
     </div>
 
-    <!-- Заголовок расписания -->
-    <div class="schedule-title">
-        🗓️ 22 – 26 ИЮНЯ
-    </div>
+    <div class="schedule-title">🗓️ 22 – 28 ИЮНЯ</div>
 
-    <!-- Сетка расписания -->
-    <div class="schedule-grid">
-        <!-- 22 июня - Понедельник -->
-        <div class="day-card">
-            <span class="day-name">Понедельник</span>
-            <span class="day-date">22 июня</span>
-            <span class="event-info">📺 Стрим</span>
-            <span class="event-tag">в эфире</span>
-        </div>
-        <!-- 23 июня - Вторник -->
-        <div class="day-card">
-            <span class="day-name">Вторник</span>
-            <span class="day-date">23 июня</span>
-            <span class="event-info">📺 Стрим</span>
-            <span class="event-tag">в эфире</span>
-        </div>
-        <!-- 24 июня - Среда -->
-        <div class="day-card">
-            <span class="day-name">Среда</span>
-            <span class="day-date">24 июня</span>
-            <span class="event-info">📺 Стрим</span>
-            <span class="event-tag">в эфире</span>
-        </div>
-        <!-- 25 июня - Четверг -->
-        <div class="day-card">
-            <span class="day-name">Четверг</span>
-            <span class="day-date">25 июня</span>
-            <span class="event-info">📺 Стрим</span>
-            <span class="event-tag">в эфире</span>
-        </div>
-        <!-- 26 июня - Пятница -->
-        <div class="day-card">
-            <span class="day-name">Пятница</span>
-            <span class="day-date">26 июня</span>
-            <span class="event-info">📺 Стрим</span>
-            <span class="event-tag">в эфире</span>
-        </div>
-        <!-- 27 июня - Суббота (выходной) -->
-        <div class="day-card" style="background: #fef9e0; opacity: 0.9;">
-            <span class="day-name">Суббота</span>
-            <span class="day-date">27 июня</span>
-            <span class="event-info">🌴 Выходной</span>
-            <span class="weekend-tag">отдыхаем</span>
-        </div>
-        <!-- 28 июня - Воскресенье (выходной) -->
-        <div class="day-card" style="background: #fef9e0; opacity: 0.9;">
-            <span class="day-name">Воскресенье</span>
-            <span class="day-date">28 июня</span>
-            <span class="event-info">🌴 Выходной</span>
-            <span class="weekend-tag">отдыхаем</span>
-        </div>
-    </div>
+    <div class="schedule-grid" id="scheduleGrid"></div>
 
-    <!-- Кнопки Twitch и YouTube -->
     <div class="social-buttons">
         <a href="https://www.twitch.tv/ban_nyan" target="_blank" class="btn btn-twitch">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -414,32 +415,113 @@
         </a>
         <a href="https://www.youtube.com/@ban_nyan" target="_blank" class="btn btn-youtube">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505A3.015 3.015 0 0 0 24 17.814C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
             </svg>
             YouTube
         </a>
     </div>
 
-    <!-- банановый декор -->
-    <div class="banana-decoration">
-        🍌 🍌 🍌 🍌 🍌
-    </div>
-
+    <div class="banana-decoration">🍌 🐱 🍌 🐱 🍌</div>
 </div>
 
 <script>
-    // Функция обновления московского времени
+    const scheduleData = [
+        { date: '22 июня', day: 'Понедельник', isWeekend: false },
+        { date: '23 июня', day: 'Вторник', isWeekend: false },
+        { date: '24 июня', day: 'Среда', isWeekend: false },
+        { date: '25 июня', day: 'Четверг', isWeekend: false },
+        { date: '26 июня', day: 'Пятница', isWeekend: false },
+        { date: '27 июня', day: 'Суббота', isWeekend: true },
+        { date: '28 июня', day: 'Воскресенье', isWeekend: true }
+    ];
+
+    const STREAM_HOUR = 10;
+    const STREAM_MINUTE = 0;
+
+    const grid = document.getElementById('scheduleGrid');
+    scheduleData.forEach(function(item, index) {
+        var card = document.createElement('div');
+        card.className = 'day-card';
+        if (item.isWeekend) {
+            card.style.background = '#fef9e0';
+            card.style.opacity = '0.9';
+        }
+
+        var dayName = document.createElement('span');
+        dayName.className = 'day-name';
+        dayName.textContent = item.day;
+
+        var dayDate = document.createElement('span');
+        dayDate.className = 'day-date';
+        dayDate.textContent = item.date;
+
+        var eventInfo = document.createElement('span');
+        eventInfo.className = 'event-info';
+        eventInfo.textContent = item.isWeekend ? '🌴 Выходной' : '📺 Стрим';
+
+        var timer = document.createElement('span');
+        timer.className = item.isWeekend ? 'weekend-tag' : 'timer';
+        timer.id = 'timer-' + index;
+        timer.textContent = item.isWeekend ? 'отдыхаем' : '--:--:--';
+
+        card.appendChild(dayName);
+        card.appendChild(dayDate);
+        card.appendChild(eventInfo);
+        card.appendChild(timer);
+        grid.appendChild(card);
+    });
+
+    function formatTimer(seconds) {
+        var h = Math.floor(seconds / 3600);
+        var m = Math.floor((seconds % 3600) / 60);
+        var s = seconds % 60;
+
+        function pad(n) {
+            return String(n).padStart(2, '0');
+        }
+
+        return pad(h) + 'ч ' + pad(m) + 'м ' + pad(s) + 'с';
+    }
+
+    function updateAllTimers() {
+        var now = new Date();
+        var mskNow = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+
+        scheduleData.forEach(function(item, index) {
+            if (item.isWeekend) return;
+
+            var timerEl = document.getElementById('timer-' + index);
+            if (!timerEl) return;
+
+            var dayNum = 22 + index;
+            var streamDate = new Date(2026, 5, dayNum, STREAM_HOUR, STREAM_MINUTE, 0);
+
+            var diff = Math.floor((streamDate.getTime() - mskNow.getTime()) / 1000);
+
+            if (diff <= 0) {
+                timerEl.textContent = '🟢 В эфире!';
+                timerEl.className = 'timer live';
+                return;
+            }
+
+            timerEl.textContent = formatTimer(diff);
+            timerEl.className = 'timer';
+        });
+    }
+
     function updateMoscowTime() {
-        const now = new Date();
-        const mskTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" }));
-        const hours = String(mskTime.getHours()).padStart(2, '0');
-        const minutes = String(mskTime.getMinutes()).padStart(2, '0');
-        const seconds = String(mskTime.getSeconds()).padStart(2, '0');
+        var now = new Date();
+        var mskNow = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+        var hours = String(mskNow.getHours()).padStart(2, '0');
+        var minutes = String(mskNow.getMinutes()).padStart(2, '0');
+        var seconds = String(mskNow.getSeconds()).padStart(2, '0');
         document.getElementById('current-time').textContent = hours + ':' + minutes + ':' + seconds;
     }
 
     updateMoscowTime();
+    updateAllTimers();
     setInterval(updateMoscowTime, 1000);
+    setInterval(updateAllTimers, 1000);
 </script>
 
 </body>
